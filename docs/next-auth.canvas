@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"id":"7b3c93a33753c2ab","type":"text","text":"# Installation\n\n```\nnpm install bcrypt\n```\n\n```\nnpm install -D @types/bcrypt\n```","x":-1640,"y":-1621,"width":314,"height":197},
+		{"id":"8a7253a38e703d18","x":-839,"y":-1293,"width":424,"height":269,"type":"text","text":"# Better Auth Instance\n`auth.ts`\n```ts\nimport { betterAuth } from \"better-auth\";\n\nexport const auth = betterAuth({\n  //...\n});\n```\n"},
+		{"id":"9880c9ad0f6da6f9","type":"text","text":"# DB Config (Prisma + Postgres)\n\n`auth.ts`\n\n```ts\nimport { betterAuth } from \"better-auth\";\nimport { prismaAdapter } from \"better-auth/adapters/prisma\";\nimport { PrismaClient } from \"@/generated/prisma/client\";\n\nconst prisma = new PrismaClient();\nexport const auth = betterAuth({\n    database: prismaAdapter(prisma, {\n        provider: \"postgresql\",\n    }),\n});\n```\n\n```npm\nnpx @better-auth/cli generate\n```\n\n```npm\nnpx prisma db push\n```\n","x":-339,"y":-1417,"width":760,"height":517},
+		{"id":"1915a002155879a8","type":"text","text":"# Environment Variables\n\n```\nBETTER_AUTH_SECRET\n```\n\n```\nBETTER_AUTH_URL\n```","x":-1294,"y":-1257,"width":355,"height":197},
+		{"id":"89ae0dae7aa37563","x":521,"y":-1345,"width":610,"height":373,"type":"text","text":"# Auth Methods\n\n```ts\nexport const auth = betterAuth({\n  emailAndPassword: { \n    enabled: true, \n  }, \n  socialProviders: { \n    github: { \n      clientId: process.env.GITHUB_CLIENT_ID as string, \n      clientSecret: process.env.GITHUB_CLIENT_SECRET as string, \n    }, \n  }, \n});\n```"},
+		{"id":"8cb3837a32d00c2b","type":"text","text":"# Installation\n\n```\nnpm install better-auth\n```","x":-1659,"y":-1217,"width":272,"height":118},
+		{"id":"d5c4854d0d265153","type":"file","file":"attachments/prisma-user-model.png","x":-1558,"y":-727,"width":399,"height":217},
+		{"id":"7fcb6bc4b8cf27f0","type":"file","file":"attachments/register-action.png","x":-1434,"y":-392,"width":399,"height":335},
+		{"id":"2dad35b934db15c0","type":"file","file":"attachments/prisma-account-model.png","x":-1111,"y":-727,"width":400,"height":247},
+		{"id":"4f99cf14e261fb38","type":"text","text":"restrict users which have not verified their email from logging in.","x":-740,"y":-430,"width":532,"height":50},
+		{"id":"60e068862c56f0d6","type":"text","text":"check emailVerified field in the login action.","x":-440,"y":-287,"width":376,"height":50},
+		{"id":"69c1336e2bb82374","type":"text","text":"tell next-auth to never allow these users to sign in completly, instead redirect them to complete their email verification","x":-726,"y":-210,"width":504,"height":55},
+		{"id":"7927c27546ffa95d","type":"text","text":"access the currently logged in user in server components: **auth()**","x":-708,"y":-70,"width":537,"height":50},
+		{"id":"5cb5fd5dd465d54b","type":"text","text":"# Route Handlers (Next.js)\n\n```ts\nimport { auth } from \"@/auth\";\nimport { toNextJsHandler } from \"better-auth/next-js\";\n\nexport const { POST, GET } = toNextJsHandler(auth);\n```\n","x":1200,"y":-1345,"width":610,"height":373}
+	],
+	"edges":[
+		{"id":"0bf66ef33886d190","fromNode":"4f99cf14e261fb38","fromSide":"bottom","toNode":"60e068862c56f0d6","toSide":"top","color":"1"},
+		{"id":"615b8df4795644ef","fromNode":"4f99cf14e261fb38","fromSide":"bottom","toNode":"69c1336e2bb82374","toSide":"top","color":"4"},
+		{"id":"c13471b3b9c98d03","fromNode":"8cb3837a32d00c2b","fromSide":"right","toNode":"1915a002155879a8","toSide":"left"},
+		{"id":"afc9ef54f5946aa6","fromNode":"1915a002155879a8","fromSide":"right","toNode":"8a7253a38e703d18","toSide":"left"},
+		{"id":"f0601c7ef71cf15f","fromNode":"8a7253a38e703d18","fromSide":"right","toNode":"9880c9ad0f6da6f9","toSide":"left"},
+		{"id":"9e2d944ceb3a5207","fromNode":"9880c9ad0f6da6f9","fromSide":"right","toNode":"89ae0dae7aa37563","toSide":"left"},
+		{"id":"a5088117332e59f6","fromNode":"89ae0dae7aa37563","fromSide":"right","toNode":"5cb5fd5dd465d54b","toSide":"left"}
+	]
+}
