@@ -1,11 +1,10 @@
 "use server";
 
 import * as z from "zod";
-import bcrypt from "bcrypt";
 
 import { registerSchema } from "@/schemas/register-schema";
-import prismadb from "@/lib/prismadb";
-import { getUserByEmail } from "@/data/user";
+import { auth } from "@/auth";
+import { APIError } from "better-auth";
 
 export const register = async (data: z.infer<typeof registerSchema>) => {
   const valid = registerSchema.safeParse(data);
@@ -16,21 +15,20 @@ export const register = async (data: z.infer<typeof registerSchema>) => {
 
   const { name, email, password } = valid.data;
 
-  const existingUser = await getUserByEmail(email);
+  try {
+    await auth.api.signUpEmail({
+      body: {
+        name,
+        email,
+        password,
+      },
+    });
+    return { sucess: "User created!" };
+  } catch (error) {
+    if (error instanceof APIError) {
+      return { error: error.message };
+    }
 
-  if (existingUser) {
-    return { error: "Email is already taken!" };
+    throw error;
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  await prismadb.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-    },
-  });
-
-  return { sucess: "User created!" };
 };

@@ -44,7 +44,7 @@ export const LoginForm = () => {
         });
       });
     } catch (error) {
-      // toast error
+      //TODO
     }
   };
 

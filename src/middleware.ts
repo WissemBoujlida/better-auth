@@ -8,7 +8,6 @@ import {
   DEFAULT_LOGIN_REDIRECT,
   authApiPrefix,
 } from "@/routes";
-import { redirect } from "next/navigation";
 
 // you most likely going to have fewer public routes than protected routes
 // we can protect all routes, and then skip a couple of routes (eg: docs, landing page, ...)
